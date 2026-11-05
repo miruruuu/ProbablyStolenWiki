@@ -2,62 +2,55 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <title>遊戲數據 Wiki</title>
+  <title>Probably Stolen Wiki</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
   <style>
-  /* 1. 讓主要內容區域不被側邊欄擠壓，內容寬度自動居中 */
-  .content {
-    left: 0 !important;
-    padding-left: 60px !important; /* 預留左側空間給收合按鈕 */
-  }
+    :root {
+      --sidebar-width: 240px; /* 側邊欄寬度 */
+    }
 
-  /* 2. 讓側邊欄變成「半透明懸浮抽屜」 */
-  .sidebar {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 100; /* 保證浮在文字與表格之上 */
-    background: rgba(255, 255, 255, 0.55) !important; /* 半透明白色 (0.85 可依喜好調整) */
-    backdrop-filter: blur(10px) !important; /* 毛玻璃磨砂模糊效果 */
-    -webkit-backdrop-filter: blur(10px) !important;
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08) !important; /* 邊緣加柔和立體陰影 */
-    border-right: 1px solid rgba(0, 0, 0, 0.06) !important;
-  }
+    /* 1. 主要內容區域：不被側邊欄擠壓，自動展開居中 */
+    .content {
+      left: 0 !important;
+      padding-left: 60px !important; /* 預留左側空間給收合切換按鈕 */
+    }
 
-  /* 3. 調整左下角收合按鈕層級，避免被遮擋 */
-  .sidebar-toggle {
-    z-index: 101 !important;
-    background: rgba(255, 255, 255, 0.9) !important;
-    border-radius: 4px;
-  }
-  /* 1. 修改 Docsify 官方預設側邊欄寬度變數 */
-  :root {
-    --sidebar-width: 240px; /* 預設約 300px，可自由改為 220px ~ 260px */
-  }
+    /* 2. 側邊欄：毛玻璃半透明懸浮抽屜，帶平滑過渡動畫 */
+    .sidebar {
+      width: var(--sidebar-width) !important;
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.75) !important;
+      backdrop-filter: blur(10px) !important;
+      -webkit-backdrop-filter: blur(10px) !important;
+      box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08) !important;
+      border-right: 1px solid rgba(0, 0, 0, 0.06) !important;
+      transition: transform 0.25s ease-out !important;
+    }
 
-  /* 2. 直接指定懸浮側邊欄的寬度 */
-  .sidebar {
-    width: var(--sidebar-width) !important;
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 100;
-    background: rgba(255, 255, 255, 0.85) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08) !important;
-    border-right: 1px solid rgba(0, 0, 0, 0.06) !important;
-  }
+    /* 3. 預設收合狀態：平移至螢幕外 */
+    .close .sidebar {
+      transform: translateX(calc(-1 * var(--sidebar-width))) !important;
+    }
 
-  /* 3. 當側邊欄收合時的平移距離（需與側邊欄寬度一致） */
-  .close .sidebar {
-    transform: translateX(calc(-1 * var(--sidebar-width))) !important;
-  }
-</style>
+    /* 4. 左下角收合按鈕：確保在頂層且易於點擊 */
+    .sidebar-toggle {
+      z-index: 101 !important;
+      background: rgba(255, 255, 255, 0.9) !important;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* 5. 搜尋欄樣式微調（適配半透明側邊欄） */
+    .sidebar .search {
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body class="close">
   <div id="app">載入中...</div>
@@ -67,10 +60,33 @@
       repo: '',
       loadSidebar: true,
       subMaxLevel: 3,
+      
+      // 多語言與側邊欄回退別名機制
+      fallbackLanguages: ['zh-tw'],
+      alias: {
+        '/.*/_sidebar.md': '/_sidebar.md' // 當語言子資料夾尚未建立個別 _sidebar.md 時，自動回退使用根目錄側邊欄
+      },
+
+      // 全文搜尋外掛設定
+      search: {
+        maxAge: 86400000,
+        paths: 'auto',
+        placeholder: '搜尋數據、道具或機制...',
+        noData: '找不到相關結果',
+        depth: 3
+      },
+
+      // 一鍵複製代碼外掛設定
+      copyCode: {
+        buttonText: '複製',
+        errorText: '失敗',
+        successText: '已複製'
+      },
+
+      // 在頁面頂部生成「編輯此頁面」連結
       plugins: [
         function(hook, vm) {
           hook.beforeEach(function(html) {
-            // 自動生成對應檔案在 GitHub 上的編輯連結
             var url = 'https://github.com/miruruuu/ProbablyStolenWiki/blob/main/' + vm.route.file;
             var editHtml = '[:memo: 編輯此頁面](' + url + ')\n\n';
             return editHtml + html;
@@ -79,6 +95,17 @@
       ]
     }
   </script>
+
+  <!-- Docsify 核心腳本 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+
+  <!-- 全文搜尋外掛 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+
+  <!-- 代碼框一鍵複製外掛 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
+
+  <!-- Prism 語法高亮外掛（C# 語言） -->
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-csharp.min.js"></script>
 </body>
 </html>
