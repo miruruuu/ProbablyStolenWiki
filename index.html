@@ -56,44 +56,46 @@
   <div id="app">載入中...</div>
   <script>
     window.$docsify = {
-      name: 'Probably Stolen Wiki',
-      repo: '',
-      loadSidebar: true,
-      subMaxLevel: 3,
-      
-      // 多語言與側邊欄回退別名機制
-      fallbackLanguages: ['zh-tw'],
-      alias: {
-        '/.*/_sidebar.md': '/_sidebar.md' // 當語言子資料夾尚未建立個別 _sidebar.md 時，自動回退使用根目錄側邊欄
-      },
+    name: 'Probably Stolen Wiki',
+    repo: '',
+    loadSidebar: true,
+    subMaxLevel: 3,
 
-      // 全文搜尋外掛設定
-      search: {
-        maxAge: 86400000,
-        paths: 'auto',
-        placeholder: '搜尋數據、道具或機制...',
-        noData: '找不到相關結果',
-        depth: 3
-      },
+    // 1. 底層語言設定為英文（留空或設為 '/' 即代表根目錄預設）
+    fallbackLanguages: ['/'],
 
-      // 一鍵複製代碼外掛設定
-      copyCode: {
-        buttonText: '複製',
-        errorText: '失敗',
-        successText: '已複製'
-      },
+    // 2. 側邊欄路徑別名：繁中找不到就用中文自身側邊欄，其餘找不到一律退回根目錄英文選單
+    alias: {
+      '/zh-tw/.*/_sidebar.md': '/zh-tw/_sidebar.md',
+      '/.*/_sidebar.md': '/_sidebar.md'
+    },
 
-      // 在頁面頂部生成「編輯此頁面」連結
-      plugins: [
-        function(hook, vm) {
-          hook.beforeEach(function(html) {
-            var url = 'https://github.com/miruruuu/ProbablyStolenWiki/blob/main/' + vm.route.file;
-            var editHtml = '[:memo: 編輯此頁面](' + url + ')\n\n';
-            return editHtml + html;
-          });
-        }
-      ]
-    }
+    // 3. 全文搜尋提示文字改為英文（或中英雙語）
+    search: {
+      maxAge: 86400000,
+      paths: 'auto',
+      placeholder: 'Search documentation...',
+      noData: 'No results found.',
+      depth: 3
+    },
+
+    // 4. 代碼複製按鈕改為英文
+    copyCode: {
+      buttonText: 'Copy',
+      errorText: 'Failed',
+      successText: 'Copied'
+    },
+
+    plugins: [
+      function(hook, vm) {
+        hook.beforeEach(function(html) {
+          var url = 'https://github.com/miruruuu/ProbablyStolenWiki/blob/main/' + vm.route.file;
+          var editHtml = '[:memo: Edit this page](' + url + ')\n\n';
+          return editHtml + html;
+        });
+      }
+    ]
+  }
   </script>
 
   <!-- Docsify 核心腳本 -->
