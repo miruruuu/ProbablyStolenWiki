@@ -3,5 +3,7 @@
 - **道具圖鑑**
   - [生活與水處理用品](items/amenities.md)
 
+- **[成就列表](achievements/achievements.md)**
+
 - **遊戲原始碼**
   - [原始碼](source/README.md)
