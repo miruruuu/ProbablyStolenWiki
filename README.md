@@ -1,6 +1,6 @@
 # Probably Stolen Wiki
 
-歡迎查閱本遊戲反編譯底層數據資料庫。
+A comprehensive reverse-engineered data and mechanics wiki for Probably Stolen.
 
-## 核心系統導覽
-* 請點選左側選單查閱各系統的詳細數值與底層運作邏輯。
+* [English (US)](en-us/README.md)
+* [繁體中文 (Traditional Chinese)](zh-tw/README.md)
