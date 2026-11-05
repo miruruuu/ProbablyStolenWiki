@@ -15,15 +15,18 @@
       repo: '',
       loadSidebar: true,
       subMaxLevel: 3,
-      search: {
-        placeholder: '搜尋數據或機制...',
-        noData: '找不到相關內容',
-        depth: 3
-      }
+      plugins: [
+        function(hook, vm) {
+          hook.beforeEach(function(html) {
+            // 自動生成對應檔案在 GitHub 上的編輯連結
+            var url = 'https://github.com/miruruuu/ProbablyStolenWiki/blob/main/' + vm.route.file;
+            var editHtml = '[:memo: 編輯此頁面](' + url + ')\n\n';
+            return editHtml + html;
+          });
+        }
+      ]
     }
   </script>
-  <!-- Docsify 核心與搜尋插件 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
 </body>
 </html>
