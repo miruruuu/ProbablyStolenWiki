@@ -33,6 +33,30 @@
     background: rgba(255, 255, 255, 0.9) !important;
     border-radius: 4px;
   }
+  /* 1. 修改 Docsify 官方預設側邊欄寬度變數 */
+  :root {
+    --sidebar-width: 240px; /* 預設約 300px，可自由改為 220px ~ 260px */
+  }
+
+  /* 2. 直接指定懸浮側邊欄的寬度 */
+  .sidebar {
+    width: var(--sidebar-width) !important;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08) !important;
+    border-right: 1px solid rgba(0, 0, 0, 0.06) !important;
+  }
+
+  /* 3. 當側邊欄收合時的平移距離（需與側邊欄寬度一致） */
+  .close .sidebar {
+    transform: translateX(calc(-1 * var(--sidebar-width))) !important;
+  }
 </style>
 </head>
 <body>
