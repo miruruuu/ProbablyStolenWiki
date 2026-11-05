@@ -1,1 +1,6 @@
-# ProbablyStolenWiki
+# Probably Stolen Wiki
+
+歡迎查閱本遊戲反編譯底層數據資料庫。
+
+## 核心系統導覽
+* 請點選左側選單查閱各系統的詳細數值與底層運作邏輯。
