@@ -2,5 +2,5 @@
 
 A comprehensive reverse-engineered data and mechanics wiki for Probably Stolen.
 
-* [English (US)](en-us/README.md)
-* [繁體中文 (Traditional Chinese)](zh-tw/README.md)
+* [English (US)](https://miruruuu.github.io/ProbablyStolenWiki/#/en-us/)
+* [繁體中文 (Traditional Chinese)](https://miruruuu.github.io/ProbablyStolenWiki/#/zh-tw/)
