@@ -56,46 +56,64 @@
   <div id="app">載入中...</div>
   <script>
     window.$docsify = {
-    name: 'Probably Stolen Wiki',
-    repo: '',
-    loadSidebar: true,
-    subMaxLevel: 3,
+      name: 'Probably Stolen Wiki',
+      repo: '',
+      loadSidebar: true,
+      subMaxLevel: 3,
 
-    // 1. 底層語言設定為英文（留空或設為 '/' 即代表根目錄預設）
-    fallbackLanguages: ['/'],
+      // 1. 底層回退語言設為英文
+      fallbackLanguages: ['en-us'],
 
-    // 2. 側邊欄路徑別名：繁中找不到就用中文自身側邊欄，其餘找不到一律退回根目錄英文選單
-    alias: {
-      '/zh-tw/.*/_sidebar.md': '/zh-tw/_sidebar.md',
-      '/.*/_sidebar.md': '/_sidebar.md'
-    },
+      // 2. 側邊欄別名映射：各自優先使用目錄下的 _sidebar.md，缺少時以 en-us 為準
+      alias: {
+        '/zh-tw/.*/_sidebar.md': '/zh-tw/_sidebar.md',
+        '/en-us/.*/_sidebar.md': '/en-us/_sidebar.md',
+        '/.*/_sidebar.md': '/en-us/_sidebar.md'
+      },
 
-    // 3. 全文搜尋提示文字改為英文（或中英雙語）
-    search: {
-      maxAge: 86400000,
-      paths: 'auto',
-      placeholder: 'Search documentation...',
-      noData: 'No results found.',
-      depth: 3
-    },
+      // 3. 全文搜尋提示文字（支援多語言路徑切換）
+      search: {
+        maxAge: 86400000,
+        paths: 'auto',
+        placeholder: {
+          '/zh-tw/': '搜尋數據、道具或機制...',
+          '/': 'Search documentation...'
+        },
+        noData: {
+          '/zh-tw/': '找不到相關結果',
+          '/': 'No results found.'
+        },
+        depth: 3
+      },
 
-    // 4. 代碼複製按鈕改為英文
-    copyCode: {
-      buttonText: 'Copy',
-      errorText: 'Failed',
-      successText: 'Copied'
-    },
+      // 4. 代碼複製按鈕
+      copyCode: {
+        buttonText: 'Copy',
+        errorText: 'Failed',
+        successText: 'Copied'
+      },
 
-    plugins: [
-      function(hook, vm) {
-        hook.beforeEach(function(html) {
-          var url = 'https://github.com/miruruuu/ProbablyStolenWiki/blob/main/' + vm.route.file;
-          var editHtml = '[:memo: Edit this page](' + url + ')\n\n';
-          return editHtml + html;
-        });
-      }
-    ]
-  }
+      // 5. 擴充外掛：自動跳轉至 en-us + GitHub 編輯連結
+      plugins: [
+        function(hook, vm) {
+          hook.beforeEach(function(html) {
+            // 偵測是否停留在中立根目錄，若是則直接跳轉至英文版
+            var path = vm.route.path;
+            if (path === '/' || path === '' || path === '/README') {
+              window.location.replace('#/en-us/');
+              return '';
+            }
+
+            // GitHub 頁面編輯連結
+            var url = 'https://github.com/miruruuu/ProbablyStolenWiki/blob/main/' + vm.route.file;
+            var isZh = path.indexOf('/zh-tw/') === 0;
+            var editLabel = isZh ? '📝 編輯此頁面' : '📝 Edit this page';
+            var editHtml = '[' + editLabel + '](' + url + ')\n\n';
+            return editHtml + html;
+          });
+        }
+      ]
+    };
   </script>
 
   <!-- Docsify 核心腳本 -->
