@@ -6,6 +6,34 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <style>
+  /* 1. 讓主要內容區域不被側邊欄擠壓，內容寬度自動居中 */
+  .content {
+    left: 0 !important;
+    padding-left: 60px !important; /* 預留左側空間給收合按鈕 */
+  }
+
+  /* 2. 讓側邊欄變成「半透明懸浮抽屜」 */
+  .sidebar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 100; /* 保證浮在文字與表格之上 */
+    background: rgba(255, 255, 255, 0.85) !important; /* 半透明白色 (0.85 可依喜好調整) */
+    backdrop-filter: blur(10px) !important; /* 毛玻璃磨砂模糊效果 */
+    -webkit-backdrop-filter: blur(10px) !important;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08) !important; /* 邊緣加柔和立體陰影 */
+    border-right: 1px solid rgba(0, 0, 0, 0.06) !important;
+  }
+
+  /* 3. 調整左下角收合按鈕層級，避免被遮擋 */
+  .sidebar-toggle {
+    z-index: 101 !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-radius: 4px;
+  }
+</style>
 </head>
 <body>
   <div id="app">載入中...</div>
